@@ -7,37 +7,43 @@ using VRTK;
 
 public class InteractionManager : MonoBehaviour {
 
-    public GameObject lightningPrefab;
+    public ParticleSystem tornadoParticles;
+    public Transform body;
 
-    private LightningBoltScript lightningScript;
+    private ParticleSystem tornado;
+
     private GameObject leftController;
     private GameObject rightController;
+
     private VRTK_ControllerEvents leftControllerEvents;
     private VRTK_ControllerEvents rightControllerEvents;
 
     void Awake()
     {
-        leftController = VRTK_DeviceFinder.GetControllerLeftHand();
-        rightController = VRTK_DeviceFinder.GetControllerRightHand();
-        leftControllerEvents = leftController.GetComponent<VRTK_ControllerEvents>();
-        rightControllerEvents = rightController.GetComponent<VRTK_ControllerEvents>();
+        InitializeControllers();
 
-        InstantiateLightning();
+        tornado = Instantiate(tornadoParticles, body);
     }
 
     void Update()
     {
-        if(leftControllerEvents.gripPressed && rightControllerEvents.gripPressed)
+        bool gripsHeld = leftControllerEvents.gripPressed && rightControllerEvents.gripPressed;
+
+        if (gripsHeld && !tornado.isPlaying)
         {
-            lightningScript.Trigger();
+            tornado.Play();
+        }
+        else if (!gripsHeld && tornado.isPlaying )
+        {
+            tornado.Stop();
         }
     }
 
-    void InstantiateLightning()
+    void InitializeControllers()
     {
-        lightningScript = Instantiate(lightningPrefab).GetComponent<LightningBoltScript>();
-        lightningScript.ManualMode = true;
-        lightningScript.StartObject = leftController;
-        lightningScript.EndObject = rightController;
+        leftController = VRTK_DeviceFinder.GetControllerLeftHand();
+        rightController = VRTK_DeviceFinder.GetControllerRightHand();
+        leftControllerEvents = leftController.GetComponent<VRTK_ControllerEvents>();
+        rightControllerEvents = rightController.GetComponent<VRTK_ControllerEvents>();
     }
 }

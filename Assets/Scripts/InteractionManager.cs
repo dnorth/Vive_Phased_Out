@@ -7,10 +7,10 @@ using VRTK;
 
 public class InteractionManager : MonoBehaviour {
 
-    public ParticleSystem tornadoParticles;
+    public GameObject effectObject;
     public Transform body;
 
-    private ParticleSystem tornado;
+    private GameObject effect;
 
     private GameObject leftController;
     private GameObject rightController;
@@ -22,20 +22,21 @@ public class InteractionManager : MonoBehaviour {
     {
         InitializeControllers();
 
-        tornado = Instantiate(tornadoParticles, body);
+        effect = Instantiate(effectObject, body);
+        effect.SetActive(false);
     }
 
     void Update()
     {
         bool gripsHeld = leftControllerEvents.gripPressed && rightControllerEvents.gripPressed;
 
-        if (gripsHeld && !tornado.isPlaying)
+        if (gripsHeld && !effect.activeSelf)
         {
-            tornado.Play();
+            effect.SetActive(true);
         }
-        else if (!gripsHeld && tornado.isPlaying )
+        else if (!gripsHeld && effect.activeSelf)
         {
-            tornado.Stop();
+            effect.SetActive(false);
         }
     }
 

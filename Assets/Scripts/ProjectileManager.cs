@@ -9,23 +9,26 @@ using Assets.Scripts.Extensions;
 
 public class ProjectileManager : MonoBehaviour
 {
-
-    public ParticleSystem projectilePrefab;
-
     private VRTK_ControllerEvents controllerEvents;
     private GameObject projectile;
+
+    private BasicBoltManager boltManager;
 
     void Awake()
     {
         controllerEvents = GetComponent<VRTK_ControllerEvents>();
 
         controllerEvents.GripPressed += OnGripPressed;
+
+        boltManager = GetComponent<BasicBoltManager>();
     }
 
     public void OnGripPressed(object sender, ControllerInteractionEventArgs e)
     {
-        var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-        Destroy(projectile.gameObject, 2f);
+        if(Time.time >= boltManager.NextFire)
+        {
+            boltManager.Cast();
+        }
     }
 }
 

@@ -3,8 +3,11 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
+
+# Store Assets To hide
 /Assets/AssetStoreTools*
 /Assets/KriptoFX/*
+/Assets/FantasyMonster/*
 
 # Visual Studio 2015 cache directory
 /.vs/

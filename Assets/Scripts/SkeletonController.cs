@@ -8,7 +8,8 @@ public class SkeletonController : MonoBehaviour {
     [Tooltip("The target being attacked. If not set, defaults to the HMD.")]
     public Transform target;
 
-    public float walkingSpeed = 3f;
+    public float walkingSpeed = 0.5f;
+    public float runningSpeed = 2f;
     public float turningSpeed = 100f;
     public float attackingDistance = 1f;
 
@@ -27,22 +28,32 @@ public class SkeletonController : MonoBehaviour {
     void Update () {
         TurnTowards(target);
 
-        Debug.Log("Is move allowed: " + IsMoveAllowed());
-        if(IsMoveAllowed() && !IsInAttackingDistance())
+        if(!IsAttacking() && !IsInAttackingDistance())
         {
             WalkTowards(target);
         }
-        else
+        else if(!IsAttacking() && IsInAttackingDistance())
         {
-            Attack(target);
+            StartCoroutine(Attack(target));
         }
     }
 
     private void WalkTowards(Transform target)
     {
         animator.SetBool("isWalking", true);
-        float walkingStep = walkingSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, GetNonVerticalTargetPos(target), walkingStep);
+        MoveTowards(target, walkingSpeed);
+    }
+
+    private void RunTowards(Transform target)
+    {
+        animator.SetBool("isRunning", true);
+        MoveTowards(target, runningSpeed);
+    }
+
+    private void MoveTowards(Transform target, float speed)
+    {
+        float step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, GetNonVerticalTargetPos(target), step);
     }
 
     private void TurnTowards(Transform target)
@@ -50,14 +61,23 @@ public class SkeletonController : MonoBehaviour {
         transform.LookAt(GetNonVerticalTargetPos(target));
     }
 
-    private void Attack(Transform target)
+    private IEnumerator Attack(Transform target)
     {
-        animator.SetTrigger("attack");
+        animator.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(2.767f);
+        if (IsInAttackingDistance())
+        {
+            StartCoroutine(Attack(target));
+        }
+        else
+        {
+            animator.SetBool("isAttacking", false);
+        }
     }
 
-    private bool IsMoveAllowed()
+    private bool IsAttacking()
     {
-        return !animator.GetBool("attack");
+        return animator.GetBool("isAttacking");
     }
 
     private bool IsInAttackingDistance()

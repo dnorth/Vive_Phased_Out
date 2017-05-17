@@ -85,7 +85,7 @@ public class SkeletonController : IEnemyController {
         StartCoroutine(OnHitCoroutine());
     }
 
-    private IEnumerator OnHitCoroutine()
+    private IEnumerator OnHitCoroutine() //TODO: I believe this is causing threaded issues that I need to look into. Allow multiple "hits" without setting false on a different thread
     {
         animator.SetBool("isHit", true);
         yield return new WaitForSeconds(GetClipLength("Damage"));

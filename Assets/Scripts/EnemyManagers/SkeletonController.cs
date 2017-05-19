@@ -35,11 +35,6 @@ public class SkeletonController : IEnemyController {
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Collided!");
-    }
-
     protected override void WalkTowards(Transform target)
     {
         animator.SetBool("isWalking", true);
@@ -82,12 +77,14 @@ public class SkeletonController : IEnemyController {
 
     public override void OnHit(GameObject particle)
     {
-        StartCoroutine(OnHitCoroutine());
+        StopCoroutine("OnHitCoroutine"); //Stop the previous hit coroutine if hit sequentially 
+        StartCoroutine("OnHitCoroutine");
     }
 
-    private IEnumerator OnHitCoroutine() //TODO: I believe this is causing threaded issues that I need to look into. Allow multiple "hits" without setting false on a different thread
+    private IEnumerator OnHitCoroutine()
     {
         animator.SetBool("isHit", true);
+        animator.Play("Damage", -1, 0f);
         yield return new WaitForSeconds(GetClipLength("Damage"));
         animator.SetBool("isHit", false);
     }

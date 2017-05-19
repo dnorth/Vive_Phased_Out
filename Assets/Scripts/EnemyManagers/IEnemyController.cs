@@ -11,6 +11,7 @@ abstract public class IEnemyController : MonoBehaviour
     public float runningSpeed = 2f;
     public float turningSpeed = 100f;
     public float attackingDistance = 1f;
+    public float hitpoints = 2f;
 
     abstract protected void Attack(Transform target);
     abstract protected void WalkTowards(Transform target);

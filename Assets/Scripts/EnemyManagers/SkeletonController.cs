@@ -5,20 +5,23 @@ using UnityEngine;
 using VRTK;
 using System.Linq;
 
-public class SkeletonController : IEnemyController {
+public class SkeletonController : IEnemyController
+{
     private Animator animator;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         animator = GetComponent<Animator>();
 
-        if(target == null)
+        if (target == null)
             target = VRTK_DeviceFinder.HeadsetCamera();
 
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         TurnTowards(target);
 
         if (IsGrounded())
@@ -72,13 +75,18 @@ public class SkeletonController : IEnemyController {
 
     private bool IsGrounded()
     {
-        return animator.GetBool("isAttacking") || animator.GetBool("isHit");
+        return animator.GetBool("isAttacking") || animator.GetBool("isHit") || animator.GetBool("isDead");
     }
 
     public override void OnHit(GameObject particle)
     {
         StopCoroutine("OnHitCoroutine"); //Stop the previous hit coroutine if hit sequentially 
-        StartCoroutine("OnHitCoroutine");
+        hitpoints -= 1;
+
+        if (hitpoints <= 0)
+            StartCoroutine("OnDeathCoroutine");
+        else
+            StartCoroutine("OnHitCoroutine");
     }
 
     private IEnumerator OnHitCoroutine()
@@ -87,5 +95,12 @@ public class SkeletonController : IEnemyController {
         animator.Play("Damage", -1, 0f);
         yield return new WaitForSeconds(GetClipLength("Damage"));
         animator.SetBool("isHit", false);
+    }
+
+    private IEnumerator OnDeathCoroutine()
+    {
+        animator.SetBool("isDead", true);
+        yield return new WaitForSeconds(GetClipLength("Death"));
+        Destroy(gameObject);
     }
 }

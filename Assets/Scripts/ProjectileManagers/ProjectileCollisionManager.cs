@@ -12,6 +12,8 @@ public class ProjectileCollisionManager : MonoBehaviour {
 
     private void Tm_CollisionEnter(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
     {
-        e.Hit.transform.gameObject.GetComponentInParent<IEnemyController>().OnHit(gameObject);
+        var enemy = e.Hit.transform.gameObject.GetComponentInParent<IEnemyController>();
+
+        if (enemy != null) enemy.OnHit(gameObject);
     }
 }

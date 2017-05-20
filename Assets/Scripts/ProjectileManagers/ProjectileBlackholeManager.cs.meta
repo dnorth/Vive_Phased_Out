@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3d0830ec267f2264c90abebfc87e77f3
+timeCreated: 1495257575
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - blackholeHandPrefab: {fileID: 125620, guid: 0370007f981a9c7408836062ad4d92d7,
+      type: 2}
+  - blackholePrefab: {fileID: 1520786051656894, guid: 60f067005042016479e156d2700edf0c,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

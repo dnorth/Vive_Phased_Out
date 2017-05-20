@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 abstract public class IProjectile : MonoBehaviour {
-    protected float Cooldown = 1f;
+
+    public Color Color = Color.HSVToRGB(269, 233, 193);
+    protected float Cooldown = 0.5f;
     public float NextFire { get; private set; }
 
     abstract public void Cast();

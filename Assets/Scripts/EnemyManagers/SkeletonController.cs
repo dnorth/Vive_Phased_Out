@@ -101,6 +101,6 @@ public class SkeletonController : IEnemyController
     {
         animator.SetBool("isDead", true);
         yield return new WaitForSeconds(GetClipLength("Death"));
-        Destroy(gameObject);
+        Destroy(gameObject, 1.5f);
     }
 }

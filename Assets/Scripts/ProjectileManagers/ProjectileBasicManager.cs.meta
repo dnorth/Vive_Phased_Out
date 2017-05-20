@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 041640de5393afa4eb403efbe987cf66
+timeCreated: 1495257724
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - basicHandPrefab: {fileID: 1935630441017222, guid: fe071888711a2464e8505b5a3d8f9183,
+      type: 2}
+  - basicPrefab: {fileID: 1748139164946814, guid: 4f14e37b24a0f9c41a81220f59ae87f6,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

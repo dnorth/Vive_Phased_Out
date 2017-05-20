@@ -11,8 +11,8 @@ public class ProjectileManager : MonoBehaviour
     private VRTK_ControllerEvents controllerEvents;
     private GameObject projectile;
 
-    private ProjectileBoltManager boltManager;
-    private ProjectileVoidManager voidManager;
+    private ProjectileBasicManager basicProjectileManager;
+    private ProjectileBlackholeManager blackholeManager;
 
     private IProjectile currentProjectile;
 
@@ -23,10 +23,10 @@ public class ProjectileManager : MonoBehaviour
         controllerEvents.GripPressed += OnGripPressed;
         controllerEvents.TouchpadAxisChanged += OnTouchpadAxisChanged;
 
-        boltManager = GetComponent<ProjectileBoltManager>();
-        voidManager = GetComponent<ProjectileVoidManager>();
+        basicProjectileManager = GetComponent<ProjectileBasicManager>();
+        blackholeManager = GetComponent<ProjectileBlackholeManager>();
 
-        currentProjectile = boltManager;
+        currentProjectile = basicProjectileManager;
     }
 
     private void OnTouchpadAxisChanged(object sender, ControllerInteractionEventArgs e)
@@ -35,11 +35,11 @@ public class ProjectileManager : MonoBehaviour
         {
             if(e.touchpadAngle > 180)
             {
-                currentProjectile = boltManager;
+                currentProjectile = basicProjectileManager;
             }
             else
             {
-                currentProjectile = voidManager;
+                currentProjectile = blackholeManager;
             }
         }
     }

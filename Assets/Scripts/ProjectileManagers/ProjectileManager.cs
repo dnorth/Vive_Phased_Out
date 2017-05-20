@@ -13,11 +13,13 @@ public class ProjectileManager : MonoBehaviour
 
     private ProjectileBasicManager basicProjectileManager;
     private ProjectileBlackholeManager blackholeManager;
+    private ProjectileMeteorManager meteorManager;
 
     private IProjectile currentProjectile;
 
     void Awake()
     {
+
         controllerEvents = GetComponent<VRTK_ControllerEvents>();
 
         controllerEvents.GripPressed += OnGripPressed;
@@ -25,21 +27,36 @@ public class ProjectileManager : MonoBehaviour
 
         basicProjectileManager = GetComponent<ProjectileBasicManager>();
         blackholeManager = GetComponent<ProjectileBlackholeManager>();
+        meteorManager = GetComponent<ProjectileMeteorManager>();
 
         currentProjectile = basicProjectileManager;
     }
 
+    /*
+                      0
+                    *  *      
+                 *        *     
+           270  *          *  90    
+                *          *    
+                 *        *     
+                    *  *
+                    180       
+    */
     private void OnTouchpadAxisChanged(object sender, ControllerInteractionEventArgs e)
     {
         if(controllerEvents.touchpadPressed)
         {
-            if(e.touchpadAngle > 180)
+            if(e.touchpadAngle > 240)
             {
                 currentProjectile = basicProjectileManager;
             }
-            else
+            else if (e.touchpadAngle > 120)
             {
                 currentProjectile = blackholeManager;
+            }
+            else
+            {
+                currentProjectile = meteorManager;
             }
         }
     }

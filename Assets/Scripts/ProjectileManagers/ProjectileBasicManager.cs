@@ -16,7 +16,7 @@ public class ProjectileBasicManager : IProjectile {
 
     public override void Cast() {
         UpdateNextFire();
-        var boltHand = Instantiate(basicHandPrefab, transform.position, transform.rotation);
+        var boltHand = Instantiate(basicHandPrefab, transform, false);
         Destroy(boltHand, 2.5f);
         var bolt = Instantiate(basicPrefab, transform.position, transform.rotation);
         Destroy(bolt, 2.5f);
